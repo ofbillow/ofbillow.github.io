@@ -39,6 +39,14 @@
         transform: translateX(5px);
         color: #3b82f6;
       }
+      .editing-breathing-bg {
+        animation: breathing 2s infinite;
+      }
+      @keyframes breathing {
+        0% { background-color: rgba(59, 130, 246, 0.05); }
+        50% { background-color: rgba(59, 130, 246, 0.1); }
+        100% { background-color: rgba(59, 130, 246, 0.05); }
+      }
     }
   </style>
 </head>
@@ -347,7 +355,7 @@
             </div>
           </div>
           
-          <h2 class="text-xl md:text-2xl font-bold mb-3 hover:text-primary transition-colors cursor-pointer">
+          <h2 class="text-xl md:text-2xl font-bold mb-3 hover:text-primary transition-colors cursor-pointer" onclick="openBlogDetail(${blog.id})">
             ${blog.title}
           </h2>
           
@@ -362,7 +370,7 @@
           </div>
           
           <div class="flex justify-between items-center">
-            <button class="text-primary hover:text-primary/80 font-medium flex items-center transition-colors">
+            <button class="text-primary hover:text-primary/80 font-medium flex items-center transition-colors" onclick="openBlogDetail(${blog.id})">
               阅读更多 <i class="fa fa-long-arrow-right ml-1"></i>
             </button>
             <div class="flex items-center space-x-4 text-gray-500">
@@ -388,7 +396,7 @@
         const articleElement = document.createElement('li');
         articleElement.className = 'article-hover';
         articleElement.innerHTML = `
-          <a href="#" class="flex items-start">
+          <a href="#" class="flex items-start" onclick="openBlogDetail(${blog.id}); return false;">
             <div class="w-12 h-12 rounded bg-primary/10 flex items-center justify-center flex-shrink-0 mr-3">
               <i class="fa fa-file-text-o text-primary"></i>
             </div>
@@ -433,54 +441,3 @@
         type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 
         type === 'error' ? 'bg-red-50 text-red-800 border border-red-200' : 
         'bg-blue-50 text-blue-800 border border-blue-200'
-      }`;
-      
-      notification.innerHTML = `
-        <i class="fa ${
-          type === 'success' ? 'fa-check-circle' : 
-          type === 'error' ? 'fa-exclamation-circle' : 
-          'fa-info-circle'
-        } mr-2"></i>
-        <span>${message}</span>
-        <button class="ml-4 text-gray-400 hover:text-gray-600 focus:outline-none">
-          <i class="fa fa-times"></i>
-        </button>
-      `;
-      
-      // 添加到页面
-      document.body.appendChild(notification);
-      
-      // 显示通知
-      setTimeout(() => {
-        notification.classList.remove('translate-x-full');
-        notification.classList.add('translate-x-0');
-      }, 100);
-      
-      // 自动关闭
-      const closeTimeout = setTimeout(() => {
-        notification.classList.remove('translate-x-0');
-        notification.classList.add('translate-x-full');
-        
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 500);
-      }, 3000);
-      
-      // 点击关闭
-      notification.querySelector('button').addEventListener('click', () => {
-        clearTimeout(closeTimeout);
-        notification.classList.remove('translate-x-0');
-        notification.classList.add('translate-x-full');
-        
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 500);
-      });
-    }
-    
-    // 初始化页面
-    init();
-  </script>
-
-
-    </body></html>
